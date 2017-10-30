@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ANDAI_Launcher
+namespace ProgressDialogs
 {
     public class OperationsProgressDialog : Component
     {
@@ -19,12 +19,12 @@ namespace ANDAI_Launcher
         private PROGDLG dialogFlags;
         private SPACTION operationFlags;
         private PDMODE modeFlags;
-        private int currentProgress;
-        private int totalProgress;
-        private int currentSize;
-        private int totalSize;
-        private int currentItems;
-        private int totalItems;
+        private long currentProgress;
+        private long totalProgress;
+        private long currentSize;
+        private long totalSize;
+        private long currentItems;
+        private long totalItems;
         private bool estimateValue;
         private IShellItem sourceItem;
         private IShellItem destItem;
@@ -62,37 +62,37 @@ namespace ANDAI_Launcher
             get { return modeFlags; }
         }
 
-        public int ProgressBarValue
+        public long ProgressBarValue
         {
             get { return currentProgress; }
             set { currentProgress = value; UpdateProgress(); }
         }
 
-        public int ProgressBarMaxValue
+        public long ProgressBarMaxValue
         {
             get { return totalProgress; }
             set { totalProgress = value; UpdateProgress(); }
         }
 
-        public int ProgressDialogSizeValue
+        public long ProgressDialogSizeValue
         {
             get { return currentSize; }
             set { currentSize = value; UpdateProgress(); }
         }
 
-        public int ProgressDialogSizeMaxValue
+        public long ProgressDialogSizeMaxValue
         {
             get { return totalSize; }
             set { totalSize = value; UpdateProgress(); }
         }
 
-        public int ProgressDialogItemsValue
+        public long ProgressDialogItemsValue
         {
             get { return currentItems; }
             set { currentItems = value; UpdateProgress(); }
         }
 
-        public int ProgressDialogItemsMaxValue
+        public long ProgressDialogItemsMaxValue
         {
             get { return totalItems; }
             set { totalItems = value; UpdateProgress(); }
@@ -146,7 +146,7 @@ namespace ANDAI_Launcher
             }
             if (_nativeProgressDialog != null && dialogStatus != DIALOGSTATUS.DLG_DISPOSED)
             {
-                _nativeProgressDialog.UpdateProgress((uint)currentProgress, (uint)totalProgress, (uint)currentSize, (uint)totalSize, (uint)currentItems, (uint)totalItems);
+                _nativeProgressDialog.UpdateProgress((ulong)currentProgress, (ulong)totalProgress, (ulong)currentSize, (ulong)totalSize, (ulong)currentItems, (ulong)totalItems);
                 _nativeProgressDialog.UpdateLocations(sourceItem, destItem, currentItem);
             }
         }
@@ -202,7 +202,7 @@ namespace ANDAI_Launcher
             void StopProgressDialog();
             void SetOperation(SPACTION action);
             void SetMode(PDMODE mode);
-            void UpdateProgress(uint ullPointsCurrent, uint ullPointsTotal, uint ullSizeCurrent, uint ullSizeTotal, uint ullItemsCurrent, uint ullItemsTotal);
+            void UpdateProgress(ulong ullPointsCurrent, ulong ullPointsTotal, ulong ullSizeCurrent, ulong ullSizeTotal, ulong ullItemsCurrent, ulong ullItemsTotal);
             void UpdateLocations(IShellItem psiSource, IShellItem psiTarget, IShellItem psiItem);
             void ResetTimer();
             void PauseTimer();
